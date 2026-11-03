@@ -1,4 +1,12 @@
 node_modules/
 dist/
+.svelte-kit/
+.vercel/
 *.tsbuildinfo
+*.tgz
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
 .npmrc

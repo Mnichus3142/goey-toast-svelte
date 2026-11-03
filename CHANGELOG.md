@@ -16,8 +16,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Bundled Agent Skill (`skills/goey-toast/SKILL.md`) so coding agents (Claude Code, Cursor, etc.) can install and use goey-toast correctly — install via `npx skills add anl331/goey-toast` ([skills.sh](https://www.skills.sh/))
-- `goey-toast` CLI (`npx goey-toast add-skill`) to copy the skill into a project, with `--agents` (write/append `AGENTS.md` pointer) and `--dir` (custom target) flags, plus `print-skill`
+- Bundled Agent Skill (`skills/goey-toast/SKILL.md`) so coding agents (Claude Code, Cursor, etc.) can install and use goey-toast-svelte correctly — install via `npx skills add Mnichus3142/goey-toast-svelte` ([skills.sh](https://www.skills.sh/))
+- `goey-toast-svelte` CLI (`npx goey-toast-svelte add-skill`) to copy the skill into a project, with `--agents` (write/append `AGENTS.md` pointer) and `--dir` (custom target) flags, plus `print-skill`
 - "AI Agents & Skills" section added to the docs site and README
 
 ## [0.4.1] - 2026-06-08

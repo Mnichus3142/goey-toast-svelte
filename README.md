@@ -1,8 +1,6 @@
-# gooey-toast
+# goey-toast-svelte
 
-[![gooey-toast](https://goey-toast.vercel.app/og-image.png)](https://goey-toast.vercel.app)
-
-**[Live Demo & Docs](https://goey-toast.vercel.app)**
+[![goey-toast-svelte](https://raw.githubusercontent.com/Mnichus3142/goey-toast-svelte/main/demo/public/og-image.png)](https://github.com/Mnichus3142/goey-toast-svelte)
 
 ## Features
 
@@ -10,7 +8,7 @@
 - Five toast types: default, success, error, warning, info
 - Promise toasts with loading &rarr; success/error transitions
 - Action buttons with optional success label morph-back
-- Description body supporting strings and React components
+- Description body supporting strings and Svelte snippets/components
 - Configurable display duration and bounce intensity
 - Custom fill color, border color, and border width
 - CSS class overrides via `classNames` prop
@@ -33,16 +31,8 @@
 ## Installation
 
 ```bash
-npm install goey-toast
+npm install goey-toast-svelte
 ```
-
-### shadcn/ui
-
-```bash
-npx shadcn@latest add https://goey-toast.vercel.app/r/goey-toaster.json
-```
-
-This installs a thin wrapper component at `components/ui/goey-toaster.tsx` and auto-installs the `goey-toast` and `framer-motion` packages.
 
 ### AI Agents (Skill)
 
@@ -51,57 +41,50 @@ goey-toast ships a bundled [Agent Skill](https://www.skills.sh/) (`SKILL.md`) so
 Install from the skills.sh registry:
 
 ```bash
-npx skills add anl331/goey-toast
+npx skills add Mnichus3142/goey-toast-svelte  # or copy from this package
 ```
 
 Or copy the skill into your project from the package itself:
 
 ```bash
-npx goey-toast add-skill            # -> .claude/skills/goey-toast/SKILL.md
-npx goey-toast add-skill --agents   # also append an AGENTS.md pointer
-npx goey-toast add-skill --dir .cursor/skills/goey-toast
+npx goey-toast-svelte add-skill            # -> .claude/skills/goey-toast/SKILL.md
+npx goey-toast-svelte add-skill --agents   # also append an AGENTS.md pointer
+npx goey-toast-svelte add-skill --dir .cursor/skills/goey-toast
 ```
 
 ### Peer Dependencies
 
-goey-toast requires the following peer dependencies:
+goey-toast-svelte requires the following peer dependencies:
 
 ```bash
-npm install react react-dom framer-motion
+npm install svelte motion
 ```
 
 | Package        | Version    |
 | -------------- | ---------- |
-| react          | >= 18.0.0  |
-| react-dom      | >= 18.0.0  |
-| framer-motion  | >= 10.0.0  |
+| svelte         | >= 5.0.0   |
+| motion         | >= 11.0.0  |
 
 ### CSS Import (Required)
 
 You **must** import the goey-toast stylesheet for the component to render correctly:
 
 ```tsx
-import 'goey-toast/styles.css'
+import 'goey-toast-svelte/styles.css'
 ```
 
-Add this import once in your app's entry point (e.g., `main.tsx` or `App.tsx`). Without it, toasts will appear unstyled.
+Add this import once in your app's entry point (e.g., `main.ts` or `App.svelte`). Without it, toasts will appear unstyled.
 
 ## Quick Start
 
-```tsx
-import { GooeyToaster, gooeyToast } from 'goey-toast'
-import 'goey-toast/styles.css'
+```svelte
+<script lang="ts">
+  import { GooeyToaster, gooeyToast } from 'goey-toast-svelte'
+  import 'goey-toast-svelte/styles.css'
+</script>
 
-function App() {
-  return (
-    <>
-      <GooeyToaster position="bottom-right" />
-      <button onClick={() => gooeyToast.success('Saved!')}>
-        Save
-      </button>
-    </>
-  )
-}
+<GooeyToaster position="bottom-right" />
+<button onclick={() => gooeyToast.success('Saved!')}>Save</button>
 ```
 
 ## API Reference
@@ -123,10 +106,8 @@ gooeyToast.dismiss(idOrFilter?)          // dismiss one, by type, or all toasts
 
 Updates an existing toast in-place without removing and re-creating it.
 
-```tsx
-const id = gooeyToast('Uploading...', {
-  icon: <SpinnerIcon />,
-})
+```ts
+const id = gooeyToast('Uploading...')
 
 // Later, update the toast
 gooeyToast.update(id, {
@@ -142,10 +123,10 @@ gooeyToast.update(id, {
 | Option        | Type              | Description                   |
 | ------------- | ----------------- | ----------------------------- |
 | `title`       | `string`          | New title text                |
-| `description` | `ReactNode`       | New body content              |
+| `description` | `string \| Snippet`       | New body content              |
 | `type`        | `GooeyToastType`   | Change the toast type/color   |
 | `action`      | `GooeyToastAction` | New action button             |
-| `icon`        | `ReactNode \| null` | Custom icon (pass `null` to clear) |
+| `icon`        | `Snippet \| Component \| null` | Custom icon (pass `null` to clear) |
 
 #### `gooeyToast.dismiss(idOrFilter?)`
 
@@ -171,9 +152,9 @@ Options passed as the second argument to `gooeyToast()` and type-specific method
 
 | Option        | Type                 | Description                        |
 | ------------- | -------------------- | ---------------------------------- |
-| `description` | `ReactNode`          | Body content (string or component) |
+| `description` | `string \| Snippet`          | Body content (string or component) |
 | `action`      | `GooeyToastAction`    | Action button configuration        |
-| `icon`        | `ReactNode`          | Custom icon override               |
+| `icon`        | `string \| Snippet`          | Custom icon override               |
 | `duration`    | `number`             | Display duration in ms             |
 | `id`          | `string \| number`   | Unique toast identifier            |
 | `classNames`  | `GooeyToastClassNames`| CSS class overrides                |
@@ -267,11 +248,11 @@ Configuration for `gooeyToast.promise()`.
 
 **`description` sub-fields:**
 
-| Key       | Type                                             |
-| --------- | ------------------------------------------------ |
-| `loading` | `ReactNode`                                      |
-| `success` | `ReactNode \| ((data: T) => ReactNode)`          |
-| `error`   | `ReactNode \| ((error: unknown) => ReactNode)`   |
+| Key       | Type                                                     |
+| --------- | -------------------------------------------------------- |
+| `loading` | `string \| Snippet`                                      |
+| `success` | `string \| ((data: T) => string \| Snippet)`             |
+| `error`   | `string \| ((error: unknown) => string \| Snippet)`      |
 
 **`action` sub-fields:**
 
@@ -290,21 +271,25 @@ gooeyToast.error('Payment failed', {
 })
 ```
 
-### Custom React Component as Description
+### Custom Snippet as Description
 
-```tsx
-gooeyToast.success('Deployment complete', {
-  description: (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-      <div>
-        <span>Environment:</span> <strong>Production</strong>
-      </div>
-      <div>
-        <span>Branch:</span> <strong>main @ 3f8a2c1</strong>
-      </div>
-    </div>
-  ),
-})
+```svelte
+<script lang="ts">
+  import { gooeyToast } from 'goey-toast-svelte'
+
+  function show() {
+    gooeyToast.success('Deployment complete', {
+      description: deployDetails,
+    })
+  }
+</script>
+
+{#snippet deployDetails()}
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <div><span>Environment:</span> <strong>Production</strong></div>
+    <div><span>Branch:</span> <strong>main @ 3f8a2c1</strong></div>
+  </div>
+{/snippet}
 ```
 
 ### Action Button with Success Label
@@ -470,13 +455,13 @@ gooeyToast.success('Saved', { showTimestamp: false })
 
 ```ts
 // Components
-export { GooeyToaster } from 'goey-toast'
+export { GooeyToaster } from 'goey-toast-svelte'
 
 // Toast function
-export { gooeyToast } from 'goey-toast'
+export { gooeyToast } from 'goey-toast-svelte'
 
 // Animation presets
-export { animationPresets } from 'goey-toast'
+export { animationPresets } from 'goey-toast-svelte'
 
 // Types
 export type {
@@ -490,7 +475,7 @@ export type {
   DismissFilter,
   AnimationPreset,
   AnimationPresetName,
-} from 'goey-toast'
+} from 'goey-toast-svelte'
 ```
 
 ## Browser Support
@@ -504,6 +489,7 @@ goey-toast works in all modern browsers that support:
 
 ## See Also
 
+- **[goey-toast](https://github.com/anl331/goey-toast)** — Original React implementation of goey-toast. [Live Demo](https://goey-toast.vercel.app)
 - **[gooey-search-tabs](https://github.com/anl331/gooey-search-tabs)** — A morphing search bar with animated tab navigation for React. [Live Demo](https://gooey-search-tabs.vercel.app)
 
 ## License

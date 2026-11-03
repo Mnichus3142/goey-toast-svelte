@@ -1,42 +1,33 @@
 ---
-name: goey-toast
-description: Install and use goey-toast — a gooey, morphing React toast component built on Sonner with Framer Motion. Use when adding toast/notification UI to a React app (success/error/warning/info/promise toasts), or when the user mentions goey-toast / gooey toast.
+name: goey-toast-svelte
+description: Install and use goey-toast-svelte — a gooey, morphing Svelte 5 toast component built on svelte-sonner with Motion. Use when adding toast/notification UI to a Svelte app (success/error/warning/info/promise toasts), or when the user mentions goey-toast / gooey toast / goey-toast-svelte.
 license: MIT
 ---
 
-# goey-toast
+# goey-toast-svelte
 
-A gooey, morphing React toast component built on Sonner with Framer Motion
+A gooey, morphing Svelte 5 toast component built on svelte-sonner with Motion
 animations (pill → blob → pill). Use this skill to install the package and write
-correct usage code in any React project.
+correct usage code in any Svelte 5 project.
 
 ## When to use
 
-- Adding toast / notification UI to a React app (React >= 18).
-- The user mentions "goey-toast", "gooey toast", or wants animated/morphing toasts.
-- Replacing raw `sonner` toasts with the gooey variant.
+- Adding toast / notification UI to a Svelte 5 app.
+- The user mentions "goey-toast", "gooey toast", "goey-toast-svelte", or wants animated/morphing toasts.
+- Replacing raw `svelte-sonner` toasts with the gooey variant.
 
 ## Install
 
 ```bash
-npm install goey-toast react react-dom framer-motion
+npm install goey-toast-svelte svelte motion
 ```
 
 Peer deps (must exist in the host app):
 
-| Package       | Version   |
-| ------------- | --------- |
-| react         | >= 18.0.0 |
-| react-dom     | >= 18.0.0 |
-| framer-motion | >= 10.0.0 |
-
-### shadcn/ui projects
-
-```bash
-npx shadcn@latest add https://goey-toast.vercel.app/r/goey-toaster.json
-```
-
-Installs a wrapper at `components/ui/goey-toaster.tsx` and auto-installs deps.
+| Package | Version  |
+| ------- | -------- |
+| svelte  | >= 5.0.0 |
+| motion  | >= 11.0.0 |
 
 ## Two required steps to render toasts
 
@@ -44,18 +35,14 @@ Installs a wrapper at `components/ui/goey-toaster.tsx` and auto-installs deps.
 2. **Import the stylesheet once** at the entry point. Without it toasts render
    unstyled.
 
-```tsx
-import { GooeyToaster, gooeyToast } from 'goey-toast'
-import 'goey-toast/styles.css' // REQUIRED — import once at app entry
+```svelte
+<script lang="ts">
+  import { GooeyToaster, gooeyToast } from 'goey-toast-svelte'
+  import 'goey-toast-svelte/styles.css' // REQUIRED — import once at app entry
+</script>
 
-function App() {
-  return (
-    <>
-      <GooeyToaster position="bottom-right" />
-      <button onClick={() => gooeyToast.success('Saved!')}>Save</button>
-    </>
-  )
-}
+<GooeyToaster position="bottom-right" />
+<button onclick={() => gooeyToast.success('Saved!')}>Save</button>
 ```
 
 ## API: `gooeyToast`
@@ -75,9 +62,9 @@ gooeyToast.dismiss(idOrFilter?)     // dismiss one, by type, or all
 
 | Option          | Type                | Notes                                          |
 | --------------- | ------------------- | ---------------------------------------------- |
-| `description`   | `ReactNode`         | String or component body                       |
+| `description`   | `string \| Snippet` | String or Svelte snippet body                  |
 | `action`        | `GooeyToastAction`  | `{ label, onClick, successLabel? }`            |
-| `icon`          | `ReactNode`         | Custom icon (`null` clears in `update`)        |
+| `icon`          | `Snippet \| Component \| null` | Custom icon (`null` clears in `update`) |
 | `duration`      | `number`            | ms                                             |
 | `id`            | `string \| number`  | Stable id (needed for `update`)                |
 | `fillColor` / `borderColor` / `borderWidth` | colors / px | Blob styling                  |
@@ -98,7 +85,7 @@ gooeyToast.dismiss(idOrFilter?)     // dismiss one, by type, or all
 
 ### Description + action button
 
-```tsx
+```ts
 gooeyToast.info('Share link ready', {
   description: 'Your link has been generated.',
   action: {
@@ -111,7 +98,7 @@ gooeyToast.info('Share link ready', {
 
 ### Promise toast
 
-```tsx
+```ts
 gooeyToast.promise(saveData(), {
   loading: 'Saving...',
   success: (data) => `Saved ${data.count} items`,
@@ -123,14 +110,14 @@ gooeyToast.promise(saveData(), {
 
 ### Update in place
 
-```tsx
-const id = gooeyToast('Uploading...', { icon: <Spinner /> })
+```ts
+const id = gooeyToast('Uploading...')
 gooeyToast.update(id, { title: 'Done', type: 'success', icon: null })
 ```
 
 ### Dismiss by filter
 
-```tsx
+```ts
 gooeyToast.dismiss(id)                       // one
 gooeyToast.dismiss({ type: 'error' })        // all errors
 gooeyToast.dismiss({ type: ['error','warning'] })
@@ -139,14 +126,15 @@ gooeyToast.dismiss()                         // all
 
 ## Gotchas
 
-- Forgetting `import 'goey-toast/styles.css'` → unstyled toasts. Most common bug.
+- Forgetting `import 'goey-toast-svelte/styles.css'` → unstyled toasts. Most common bug.
 - `<GooeyToaster />` must be mounted exactly once, near the root.
 - `update()` requires the same `id` returned from the create call.
-- `framer-motion` is a peer dep — install it explicitly.
+- `motion` is a peer dep — install it explicitly.
+- Svelte 5 runes only — requires Svelte >= 5.
 - Backward-compat aliases exist (`GoeyToaster`, `goeyToast`) for v0.2.x; prefer
   the double-`o` names (`GooeyToaster`, `gooeyToast`).
 
 ## Reference
 
-- Live demo & docs: https://goey-toast.vercel.app
-- npm: https://www.npmjs.com/package/goey-toast
+- GitHub: https://github.com/Mnichus3142/goey-toast-svelte
+- npm: https://www.npmjs.com/package/goey-toast-svelte

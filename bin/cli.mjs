@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-// goey-toast CLI — install the agent skill into a project so coding agents
+// goey-toast-svelte CLI — install the agent skill into a project so coding agents
 // (Claude Code, Cursor, etc.) know how to install and use goey-toast.
 //
 // Usage:
-//   npx goey-toast add-skill            # -> ./.claude/skills/goey-toast/SKILL.md
-//   npx goey-toast add-skill --agents   # also write ./AGENTS.md pointer
-//   npx goey-toast add-skill --dir .codex/skills
-//   npx goey-toast print-skill          # print SKILL.md to stdout
+//   npx goey-toast-svelte add-skill            # -> ./.claude/skills/goey-toast/SKILL.md
+//   npx goey-toast-svelte add-skill --agents   # also write ./AGENTS.md pointer
+//   npx goey-toast-svelte add-skill --dir .codex/skills
+//   npx goey-toast-svelte print-skill          # print SKILL.md to stdout
 
 import { fileURLToPath } from 'node:url'
 import { dirname, join, resolve } from 'node:path'
@@ -33,7 +33,7 @@ function getFlag(name) {
 
 function readSkill() {
   if (!existsSync(SKILL_SRC)) {
-    console.error(`goey-toast: skill source not found at ${SKILL_SRC}`)
+    console.error(`goey-toast-svelte: skill source not found at ${SKILL_SRC}`)
     process.exit(1)
   }
   return readFileSync(SKILL_SRC, 'utf8')
@@ -47,22 +47,22 @@ function addSkill() {
   mkdirSync(dest, { recursive: true })
   const out = join(dest, 'SKILL.md')
   copyFileSync(SKILL_SRC, out)
-  console.log(`✓ goey-toast skill installed: ${out}`)
+  console.log(`✓ goey-toast-svelte skill installed: ${out}`)
 
   if (getFlag('agents')) {
     const agentsPath = resolve(process.cwd(), 'AGENTS.md')
     const pointer =
       '\n## goey-toast\n\n' +
       `See \`${dir}/SKILL.md\` for how to install and use goey-toast ` +
-      '(gooey morphing React toasts). Mount `<GooeyToaster />` once and ' +
-      "import `'goey-toast/styles.css'` at the app entry.\n"
+      '(gooey morphing Svelte toasts). Mount `<GooeyToaster />` once and ' +
+      "import `'goey-toast-svelte/styles.css'` at the app entry.\n"
     if (existsSync(agentsPath)) {
       const cur = readFileSync(agentsPath, 'utf8')
       if (!cur.includes('## goey-toast')) {
         writeFileSync(agentsPath, cur.trimEnd() + '\n' + pointer)
         console.log(`✓ appended goey-toast pointer to ${agentsPath}`)
       } else {
-        console.log('• AGENTS.md already references goey-toast — skipped')
+        console.log('• AGENTS.md already references goey-toast-svelte — skipped')
       }
     } else {
       writeFileSync(agentsPath, '# AGENTS.md\n' + pointer)
@@ -74,7 +74,7 @@ function addSkill() {
 }
 
 function help() {
-  console.log(`goey-toast CLI
+  console.log(`goey-toast-svelte CLI
 
 Commands:
   add-skill              Install the agent skill into ./.claude/skills/goey-toast
@@ -84,9 +84,9 @@ Commands:
   help                   Show this help
 
 Examples:
-  npx goey-toast add-skill
-  npx goey-toast add-skill --agents
-  npx goey-toast add-skill --dir .cursor/skills/goey-toast
+  npx goey-toast-svelte add-skill
+  npx goey-toast-svelte add-skill --agents
+  npx goey-toast-svelte add-skill --dir .cursor/skills/goey-toast
 `)
 }
 
@@ -104,7 +104,7 @@ switch (cmd) {
     help()
     break
   default:
-    console.error(`goey-toast: unknown command "${cmd}"\n`)
+    console.error(`goey-toast-svelte: unknown command "${cmd}"\n`)
     help()
     process.exit(1)
 }
